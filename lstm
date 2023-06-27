@@ -1,0 +1,27 @@
+import numpy as np
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense
+
+# Generate some random time series data
+time_series = np.random.rand(100, 1)
+
+# Prepare the data for LSTM
+X = time_series[:-1]
+y = time_series[1:]
+
+# Create an LSTM model
+model = Sequential()
+model.add(LSTM(32, input_shape=(1, 1)))
+model.add(Dense(1))
+
+# Compile the model
+model.compile(loss='mean_squared_error', optimizer='adam')
+
+# Train the model
+model.fit(X, y, epochs=10, batch_size=1)
+
+# Make predictions
+X_new = np.array([[0.9]])
+y_pred = model.predict(X_new)
+
+print("Predicted value:", y_pred)
